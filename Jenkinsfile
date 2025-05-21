@@ -11,7 +11,8 @@ pipeline {
             steps {
                 script {
                     docker.image('maven:latest').inside("-v ${env.WORKSPACE}/.m2:/root/.m2") {
-                        sh 'mvn -T 4 clean install'
+                        // Set local repo explicitly to avoid permission issues
+                        sh 'mvn -T 4 -Dmaven.repo.local=/root/.m2/repository clean install'
                     }
                 }
             }
@@ -20,10 +21,7 @@ pipeline {
         // Docker Image Creation & Push
         stage('Build and Push Docker Image') {
             steps {
-                // Grant executable permissions to the build script
                 sh 'chmod +x deploy.sh'
-
-                // Execute build script to build and push Docker image
                 sh './deploy.sh'
             }
         }
