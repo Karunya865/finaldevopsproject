@@ -8,13 +8,12 @@ pipeline {
     stages {
         // Maven Build Stage inside Docker
         stage('Build with Maven') {
-            agent {
-                docker {
-                    image 'maven:latest'
-                }
-            }
             steps {
-                sh 'mvn -T 4 clean install'
+                script {
+                    docker.image('maven:latest').inside("-v ${env.WORKSPACE}/.m2:/root/.m2") {
+                        sh 'mvn -T 4 clean install'
+                    }
+                }
             }
         }
 
