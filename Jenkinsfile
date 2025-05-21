@@ -8,15 +8,20 @@ pipeline {
     stages {
         stage('Prepare Workspace') {
             steps {
-                // Create the .m2repo directory with writable permissions
-                sh 'mkdir -p target/.m2repo && chmod -R 777 target/.m2repo'
+                script {
+                    sh '''
+                        sudo mkdir -p target/.m2repo
+                        sudo chmod -R 777 target/.m2repo
+                        sudo chown -R $(whoami) target/.m2repo
+                    '''
+                }
             }
         }
 
         stage('Build with Maven') {
             steps {
                 script {
-                    docker.image('maven:latest').inside {
+                    docker.image('maven:latest').inside('-u root') {
                         sh 'mvn -T 4 -Dmaven.repo.local=target/.m2repo clean install'
                     }
                 }
