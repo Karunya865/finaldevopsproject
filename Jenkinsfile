@@ -6,10 +6,16 @@ pipeline {
     }
 
     stages {
+        stage('Prepare Workspace') {
+            steps {
+                // Create the .m2repo directory with writable permissions
+                sh 'mkdir -p target/.m2repo && chmod -R 777 target/.m2repo'
+            }
+        }
+
         stage('Build with Maven') {
             steps {
                 script {
-                    // Run Maven directly without mapping to /root/.m2
                     docker.image('maven:latest').inside {
                         sh 'mvn -T 4 -Dmaven.repo.local=target/.m2repo clean install'
                     }
