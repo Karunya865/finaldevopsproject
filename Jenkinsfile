@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'your-docker-image-name'
+        DOCKER_IMAGE = 'karunya08/finaldevopsproject'
     }
 
     stages {
