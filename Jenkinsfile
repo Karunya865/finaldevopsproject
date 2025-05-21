@@ -9,9 +9,9 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 script {
-                    docker.image('maven:latest').inside("-v ${env.WORKSPACE}/.m2:/home/jenkins/.m2") {
-                        // Use a writable local repo path
-                        sh 'mvn -T 4 -Dmaven.repo.local=/home/jenkins/.m2/repository clean install'
+                    // Run Maven directly without mapping to /root/.m2
+                    docker.image('maven:latest').inside {
+                        sh 'mvn -T 4 -Dmaven.repo.local=target/.m2repo clean install'
                     }
                 }
             }
