@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <h1>One Tap</h1>
+    </header>
+    <div class="login-container">
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="username">Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">Log in</button>
+        </form>
+        <div id="message" class="error-message"></div>
+    </div>
+
+    <script>
+        // Sample user data for demonstration
+        const users = [
+            { username: 'admin', password: 'admin', role: 'teacher' },
+            { username: 'Ram', password: '123', role: 'student' },
+            { username: 'Sita', password: '456', role: 'student' }
+        ];
+
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+            // Check user credentials
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                // Navigate to the appropriate dashboard based on user role
+                if (user.role === 'teacher') {
+                    window.location.href = 'teacher_dashboard.html'; // Redirect to teacher dashboard
+                } else if (user.role === 'student') {
+                    window.location.href = 'student_dashboard.html'; // Redirect to student dashboard
+                }
+            } else {
+                messageDiv.textContent = 'Invalid username or password';
+                messageDiv.classList.add('error-message');
+            }
+        };
+    </script>
+</body>
+</html>
