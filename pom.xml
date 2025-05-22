@@ -74,7 +74,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.2.2</version>
                 <configuration>
-                    <imageName>karunya08/finaldevopsproject</imageName>
+                    <imageName>karunya08/finalproject</imageName>
                 </configuration>
             </plugin>
         </plugins>
